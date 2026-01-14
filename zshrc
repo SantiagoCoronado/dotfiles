@@ -1,0 +1,196 @@
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+# NPM config location (XDG compliant)
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+
+# Path to Oh My Zsh installation
+export ZSH="$HOME/.oh-my-zsh"
+
+# Theme - disabled since we're using Starship
+ZSH_THEME=""
+
+# Case-sensitive completion
+CASE_SENSITIVE="false"
+
+# Hyphen-insensitive completion (treats _ and - as interchangeable)
+HYPHEN_INSENSITIVE="true"
+
+# Auto-update behavior
+zstyle ':omz:update' mode auto
+zstyle ':omz:update' frequency 14
+
+# Uncomment if pasting URLs and other text is messed up
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Enable command auto-correction
+ENABLE_CORRECTION="true"
+
+# Display red dots while waiting for completion
+COMPLETION_WAITING_DOTS="true"
+
+# History timestamps
+HIST_STAMPS="yyyy-mm-dd"
+
+# Plugins
+# Add zsh-completions to fpath before compinit
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+
+plugins=(
+    git
+    docker
+    docker-compose
+    kubectl
+    npm
+    node
+    python
+    pip
+    brew
+    macos
+    history
+    sudo
+    extract
+    colored-man-pages
+    command-not-found
+    copypath
+    copyfile
+    web-search
+    jsontools
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# Free up 'hs' for HubSpot CLI (was history | grep from oh-my-zsh history plugin)
+unalias hs 2>/dev/null
+alias hg="history | grep"  # Use 'hg' for history grep instead
+alias ccdy="claude --dangerously-skip-permissions"
+# User configuration
+
+# History settings
+HISTSIZE=50000
+SAVEHIST=50000
+HISTFILE=~/.zsh_history
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY
+
+# Directory navigation
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+
+# Completion settings
+setopt COMPLETE_ALIASES
+setopt MENU_COMPLETE
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# zsh-autosuggestions configuration
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#808080"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# Key bindings for autosuggestions
+bindkey '^[[Z' autosuggest-accept  # Shift+Tab to accept suggestion
+bindkey '^ ' autosuggest-accept    # Ctrl+Space to accept suggestion
+
+# Useful aliases
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias grep="grep --color=auto"
+alias df="duf"
+alias du="dust"
+alias free="vm_stat"
+alias c="clear"
+alias h="history"
+alias reload="source ~/.zshrc"
+
+# Disk usage tools
+alias ncdu="ncdu --color dark"
+alias disk="ncdu"
+
+# Markdown viewer
+alias md="glow"
+
+# eza (modern ls replacement)
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -la --icons --group-directories-first --git"
+alias la="eza -a --icons --group-directories-first"
+alias lt="eza --tree --level=2 --icons"
+alias lta="eza --tree --level=2 --icons -a"
+
+# bat (better cat)
+alias cat="bat --paging=never"
+alias catp="bat --plain"
+export BAT_THEME="Dracula"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# Git aliases (additional to oh-my-zsh git plugin)
+alias gs="git status"
+alias gd="git diff"
+alias gco="git checkout"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gl="git pull"
+alias lg="lazygit"
+
+# Homebrew path (Apple Silicon)
+export PATH="/opt/homebrew/bin:$PATH"
+
+# PostgreSQL 17
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+# fzf configuration
+export FZF_DEFAULT_OPTS="
+  --height 40%
+  --layout=reverse
+  --border
+  --info=inline
+  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
+  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
+  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
+  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
+"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"
+
+# fzf key bindings and completion
+source <(fzf --zsh)
+
+# zoxide (smarter cd)
+eval "$(zoxide init zsh)"
+alias cd="z"
+
+# thefuck (auto-correct commands)
+eval $(thefuck --alias)
+alias f="fuck"
+
+# direnv (auto-load .envrc files)
+eval "$(direnv hook zsh)"
+
+# mise (version manager for node, python, etc.)
+eval "$(mise activate zsh)"
+
+# atuin (better shell history - replaces ctrl+r)
+eval "$(atuin init zsh)"
+
+# Initialize Starship prompt
+eval "$(starship init zsh)"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/mou/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+export PATH="/usr/local/monero:$PATH"

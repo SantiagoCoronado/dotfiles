@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+*.swp
+*.swo
+
+# Local overrides
+*.local
+
+# Secrets
+**/secrets/
+**/private/
+
+# Atuin database (contains command history)
+config/atuin/*.db
+config/atuin/*.db-*
+
+# Neovim generated files
+config/nvim/plugin/
+config/nvim/lazy-lock.json
