@@ -9,6 +9,10 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 # Path to Oh My Zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
+# Default editor
+export VISUAL="nvim"
+export EDITOR="nvim"
+
 # Theme - disabled since we're using Starship
 ZSH_THEME=""
 
