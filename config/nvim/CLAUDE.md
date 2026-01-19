@@ -17,6 +17,24 @@ This repository hosts a modular Neovim configuration built around Lazy.nvim. Cor
 - **Check status**: `:LspInfo`
 - **Adjust servers/diagnostics**: `lua/plugins/lspconfig.lua`
 
+### LSP Keybindings
+- **Navigation**:
+  - `gd` - Goto Definition
+  - `gD` - Goto Declaration
+  - `grr` - References (Neovim default)
+  - `gri` - Goto Implementation (Neovim default)
+  - `grt` - Goto Type Definition (Neovim default)
+- **Code Actions**:
+  - `gra` - Code Action (use this for "fix available" messages)
+  - `grn` - Rename (Neovim default)
+- **Information**:
+  - `K` - Hover documentation
+  - `gK` - Signature help
+  - `<C-k>` - Signature help (insert mode)
+- **Other**:
+  - `<leader>cf` - Format buffer
+  - `<leader>uh` - Toggle inlay hints
+
 ### Plugin Management
 - **Sync plugins**: `:Lazy sync`
 - **Inspect plugin state**: `:Lazy`

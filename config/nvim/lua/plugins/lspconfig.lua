@@ -111,19 +111,17 @@ return {
 
     local function create_on_attach()
       return function(client, bufnr)
+        -- Neovim 0.10+ provides default LSP mappings:
+        -- grr - References, gra - Code Action, grn - Rename
+        -- gri - Implementation, grt - Type Definition
         local function map(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
         end
         map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
-        map("n", "gr", vim.lsp.buf.references, "References")
         map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
-        map("n", "gI", vim.lsp.buf.implementation, "Goto Implementation")
-        map("n", "gy", vim.lsp.buf.type_definition, "Goto Type Definition")
         map("n", "K", vim.lsp.buf.hover, "Hover")
         map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
         map("i", "<c-k>", vim.lsp.buf.signature_help, "Signature Help")
-        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-        map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
         map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, "Format")
         if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
           map("n", "<leader>uh", function()

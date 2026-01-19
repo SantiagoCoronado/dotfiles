@@ -24,7 +24,7 @@ g.markdown_recommended_style = 0
 
 -- 42 School
 g.user42 = "rmourey-"
-g.mail42 = "rmourey-@student.42.fr"
+g.mail42 = "rmourey-@student.42madrid.com"
 
 -- Custom globals for feature toggles
 g.autoformat_enabled = true
