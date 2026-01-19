@@ -50,6 +50,3 @@ clipboard-paste-protection = true
 
 # Mouse
 mouse-hide-while-typing = true
-
-# Bell
-bell = visual
