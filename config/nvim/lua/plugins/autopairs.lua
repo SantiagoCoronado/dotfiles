@@ -1,31 +1,16 @@
 return {
-  "windwp/nvim-autopairs",
+  "echasnovski/mini.pairs",
   event = "InsertEnter",
-  dependencies = { "hrsh7th/nvim-cmp" },
   opts = {
-    check_ts = true, -- Use treesitter to check for pairs
-    ts_config = {
-      lua = { "string", "source" },
-      javascript = { "string", "template_string" },
-    },
-    fast_wrap = {
-      map = "<M-e>", -- Alt+e to wrap with pair
-      chars = { "{", "[", "(", '"', "'" },
-      pattern = [=[[%'%"%>%]%)%}%,]]=],
-      end_key = "$",
-      before_key = "h",
-      after_key = "l",
-      cursor_pos_before = true,
-      keys = "qwertyuiopzxcvbnmasdfghjkl",
-    },
+    modes = { insert = true, command = true, terminal = false },
+    -- Skip autopair when next character is one of these
+    skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+    -- Skip autopair when the cursor is inside these treesitter nodes
+    skip_ts = { "string" },
+    -- Skip autopair when next character is closing pair
+    -- and there are more closing pairs than opening pairs
+    skip_unbalanced = true,
+    -- Better deal with markdown code blocks
+    markdown = true,
   },
-  config = function(_, opts)
-    local autopairs = require("nvim-autopairs")
-    autopairs.setup(opts)
-
-    -- Integrate with nvim-cmp (auto-add parentheses after function/method completion)
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-    local cmp = require("cmp")
-    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-  end,
 }

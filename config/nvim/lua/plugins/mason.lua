@@ -11,17 +11,18 @@ return {
     },
   },
   {
-    "mason-org/mason-lspconfig.nvim",
-    dependencies = { "mason-org/mason.nvim" },
-    opts = {
-      automatic_installation = true,
-    },
-  },
-  {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
+        -- LSP servers
+        "lua-language-server",
+        "pyright",
+        "typescript-language-server",
+        "rust-analyzer",
+        "gopls",
+        "marksman",
+        -- Formatters
         "stylua",
         "shfmt",
         "ruff",

@@ -22,6 +22,7 @@ return {
     -- Terminal
     { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
     { "<c-_>", function() Snacks.terminal() end, desc = "Toggle Terminal (alt)" },
+    { "<leader>gg", function() Snacks.terminal("lazygit", { cwd = Snacks.git.get_root() }) end, desc = "Lazygit" },
     -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },

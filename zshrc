@@ -198,3 +198,7 @@ autoload -Uz compinit
 compinit
 # End of Docker CLI completions
 export PATH="/usr/local/monero:$PATH"
+
+alias francinette=/Users/mou/projects/francinette/tester.sh
+
+alias paco=/Users/mou/projects/francinette/tester.sh

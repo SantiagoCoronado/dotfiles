@@ -9,8 +9,8 @@ This repository hosts a modular Neovim configuration built around Lazy.nvim. Cor
 ## Commands
 
 ### Formatting
-- **Format current buffer**: `<leader>cf` (conform.nvim)
-- **Inspect formatter map**: `lua/plugins/conform.lua`
+- **Format current buffer**: `<leader>cf` (via LSP)
+- **Mason UI**: `<leader>cm` or `:Mason`
 
 ### LSP Management
 - **Install servers**: Mason auto-installs configured entries; open `:Mason` for status
@@ -18,25 +18,57 @@ This repository hosts a modular Neovim configuration built around Lazy.nvim. Cor
 - **Adjust servers/diagnostics**: `lua/plugins/lspconfig.lua`
 
 ### LSP Keybindings
-- **Navigation**:
+- **Navigation** (via Snacks picker):
   - `gd` - Goto Definition
   - `gD` - Goto Declaration
-  - `grr` - References (Neovim default)
-  - `gri` - Goto Implementation (Neovim default)
-  - `grt` - Goto Type Definition (Neovim default)
-- **Code Actions**:
+  - `gr` - References
+  - `gI` - Goto Implementation
+  - `gy` - Goto Type Definition
+  - `gai/gao` - Incoming/Outgoing Calls
+- **Code Actions** (Neovim defaults):
   - `gra` - Code Action (use this for "fix available" messages)
-  - `grn` - Rename (Neovim default)
+  - `grn` - Rename
 - **Information**:
   - `K` - Hover documentation
   - `gK` - Signature help
   - `<C-k>` - Signature help (insert mode)
+- **Diagnostics**:
+  - `<leader>cd` - Line diagnostics float
+  - `]d/[d` - Next/prev diagnostic
+  - `]e/[e` - Next/prev error
+  - `]w/[w` - Next/prev warning
 - **Other**:
   - `<leader>cf` - Format buffer
   - `<leader>uh` - Toggle inlay hints
 
+### File Navigation (Snacks)
+- `<leader><space>` - Smart file finder
+- `<leader>e` - File explorer
+- `<leader>/` - Live grep
+- `<leader>,` - Buffers
+- `<leader>ff/fc/fg/fr` - Files/config/git/recent
+- `<leader>sr` - Search and replace (grug-far)
+
+### Git (Snacks)
+- `<leader>gb/gl/gs/gd` - Branches/log/status/diff
+- `<leader>gi/gp` - GitHub issues/PRs
+
+### Terminal
+- `<C-/>` - Toggle terminal
+- `<Esc><Esc>` - Exit terminal mode
+
+### Toggle Options (`<leader>u*`)
+- `f` - Autoformat
+- `s` - Spelling
+- `w` - Word wrap
+- `l/L` - Line numbers/relative
+- `d` - Diagnostics
+- `h` - Inlay hints
+- `c` - Conceal level
+- `m` - Modifiable (fix E21 errors)
+
 ### Plugin Management
-- **Sync plugins**: `:Lazy sync`
+- **Sync plugins**: `:Lazy sync` or `<leader>ll`
 - **Inspect plugin state**: `:Lazy`
 - **Add new plugin**: Create a single file under `lua/plugins/` with self-contained configuration
 
@@ -46,22 +78,29 @@ This repository hosts a modular Neovim configuration built around Lazy.nvim. Cor
 ```
 lua/
 ├── core/                     # Core options, globals, autocmds, keymaps
-└── plugins/                  # Plugin specs (one file per plugin + core.lua)
+└── plugins/                  # Plugin specs (one file per plugin)
 after/
 └── ftplugin/                 # Filetype-specific buffer-local settings
 ```
 
 ### Key Features
 - **Declarative Specs**: Plugin declarations stay lean; each spec carries its own setup
-- **Language Hooks**: `after/ftplugin/` adds buffer-local defaults per language without shelling out
-- **Integrated Tooling**: Mason, conform, and LSP configs share single points of configuration
+- **Language Hooks**: `after/ftplugin/` adds buffer-local defaults per language
+- **Integrated Tooling**: Mason, LSP, and blink.cmp share single points of configuration
 - **Health First**: LuaRocks is disabled by default to keep `:checkhealth` passing
 
+### Feature Toggles
+Global flags in `lua/core/globals.lua`:
+- `vim.g.autoformat_enabled` - Auto-format on save
+- `vim.g.diagnostics_enabled` - Show diagnostics
+- `vim.g.inlay_hints_enabled` - Show inlay hints (default: false)
+- `vim.g.codelens_enabled` - Show code lens
+
 ### Supported Languages
-Filetype helpers currently target Python, Rust, JavaScript/TypeScript, and Go. LSP coverage (via `lua/plugins/lspconfig.lua`) also includes Lua, HTML/CSS, JSON, SQL, C/C++, and more through Mason.
+LSP servers configured in `lua/plugins/lspconfig.lua`: lua_ls, pyright, ts_ls, rust_analyzer, gopls, marksman. Mason auto-installs formatters: stylua, shfmt, ruff, biome, prettier, rustfmt, goimports, clang-format, markdownlint-cli2.
 
 ### Adding New Features
 - **New LSP server**: Extend `servers` in `lua/plugins/lspconfig.lua`
-- **New formatter**: Update `formatters_by_ft` in `lua/plugins/conform.lua`
+- **New formatter**: Add to `ensure_installed` in `lua/plugins/mason.lua`
 - **New plugin**: Create a single file under `lua/plugins/`
 - **New language tweaks**: Add or edit `after/ftplugin/<filetype>.lua` files
