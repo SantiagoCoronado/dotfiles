@@ -1,34 +1,47 @@
 #!/bin/bash
-# Dotfiles installation script
-# Usage: ./install.sh
-
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 CONFIG_DIR="$HOME/.config"
 
-echo "Installing dotfiles from $DOTFILES_DIR"
+# Determine platform
+if [[ "$1" == "--macos" ]]; then
+    PLATFORM="macos"
+elif [[ "$1" == "--linux" ]]; then
+    PLATFORM="linux"
+else
+    echo "Usage: ./install.sh [--macos | --linux]"
+    exit 1
+fi
 
-# Create config directories
-mkdir -p "$CONFIG_DIR"/{git,npm}
+PLATFORM_DIR="$DOTFILES_DIR/$PLATFORM"
+SHARED_DIR="$DOTFILES_DIR/shared"
 
-# Symlink shell files
-ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
-ln -sf "$DOTFILES_DIR/zshenv" "$HOME/.zshenv"
-ln -sf "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
+echo "Installing dotfiles for $PLATFORM from $DOTFILES_DIR"
 
-# Symlink individual config files
-ln -sf "$DOTFILES_DIR/config/git/config" "$CONFIG_DIR/git/config"
-ln -sf "$DOTFILES_DIR/config/npm/npmrc" "$CONFIG_DIR/npm/npmrc"
-ln -sf "$DOTFILES_DIR/config/starship.toml" "$CONFIG_DIR/starship.toml"
+mkdir -p "$CONFIG_DIR"/git "$CONFIG_DIR"/npm
 
-# Symlink config directories
-for dir in nvim tmux ghostty aerospace atuin; do
-    if [ -d "$DOTFILES_DIR/config/$dir" ]; then
-        rm -rf "$CONFIG_DIR/$dir"
-        ln -sf "$DOTFILES_DIR/config/$dir" "$CONFIG_DIR/$dir"
-    fi
+# Shell files (platform-specific + shared)
+ln -sf "$PLATFORM_DIR/zshrc" "$HOME/.zshrc"
+ln -sf "$PLATFORM_DIR/zprofile" "$HOME/.zprofile"
+ln -sf "$SHARED_DIR/zshenv" "$HOME/.zshenv"
+
+# Platform-specific configs
+ln -sf "$PLATFORM_DIR/config/git/config" "$CONFIG_DIR/git/config"
+ln -sf "$PLATFORM_DIR/config/npm/npmrc" "$CONFIG_DIR/npm/npmrc"
+
+# Platform-specific directories
+for dir in tmux ghostty; do
+    rm -rf "$CONFIG_DIR/$dir"
+    ln -sf "$PLATFORM_DIR/config/$dir" "$CONFIG_DIR/$dir"
 done
 
-echo "Dotfiles installed successfully!"
+# Shared configs
+ln -sf "$SHARED_DIR/config/starship.toml" "$CONFIG_DIR/starship.toml"
+rm -rf "$CONFIG_DIR/nvim"
+ln -sf "$SHARED_DIR/config/nvim" "$CONFIG_DIR/nvim"
+rm -rf "$CONFIG_DIR/atuin"
+ln -sf "$SHARED_DIR/config/atuin" "$CONFIG_DIR/atuin"
+
+echo "Dotfiles installed successfully for $PLATFORM!"
 echo "Run: source ~/.zshrc"

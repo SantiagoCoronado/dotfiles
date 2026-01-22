@@ -46,8 +46,7 @@ return {
       },
       c_formatter_42 = {
         command = "c_formatter_42",
-        args = { "$FILENAME" },
-        stdin = false,
+        stdin = true,
       },
     },
   },

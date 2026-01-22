@@ -128,12 +128,12 @@ alias disk="ncdu"
 # Markdown viewer
 alias md="glow"
 
-# eza (modern ls replacement)
-alias ls="eza --icons --group-directories-first"
-alias ll="eza -la --icons --group-directories-first --git"
-alias la="eza -a --icons --group-directories-first"
-alias lt="eza --tree --level=2 --icons"
-alias lta="eza --tree --level=2 --icons -a"
+# # eza (modern ls replacement)
+# alias ls="eza --icons --group-directories-first"
+# alias ll="eza -la --icons --group-directories-first --git"
+# alias la="eza -a --icons --group-directories-first"
+# alias lt="eza --tree --level=2 --icons"
+# alias lta="eza --tree --level=2 --icons -a"
 
 # bat (better cat)
 alias cat="bat --paging=never"
@@ -152,6 +152,7 @@ alias lg="lazygit"
 
 # Homebrew path (Apple Silicon)
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/home/rmourey-/eza:$PATH"
 
 # PostgreSQL 17
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
