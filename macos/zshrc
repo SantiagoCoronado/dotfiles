@@ -138,7 +138,7 @@ alias md="glow"
 # bat (better cat)
 alias cat="bat --paging=never"
 alias catp="bat --plain"
-export BAT_THEME="Dracula"
+export BAT_THEME="gruvbox-dark"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # Git aliases (additional to oh-my-zsh git plugin)
@@ -163,10 +163,10 @@ export FZF_DEFAULT_OPTS="
   --layout=reverse
   --border
   --info=inline
-  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
-  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
-  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
-  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
+  --color=fg:#d3c6aa,bg:#2d353b,hl:#a7c080
+  --color=fg+:#d3c6aa,bg+:#3d484d,hl+:#a7c080
+  --color=info:#83c092,prompt:#7fbbb3,pointer:#e67e80
+  --color=marker:#e67e80,spinner:#83c092,header:#7fbbb3
 "
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"

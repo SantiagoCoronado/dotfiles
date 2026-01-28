@@ -21,7 +21,7 @@ require("lazy").setup({
     version = false,
   },
   install = {
-    colorscheme = { "catppuccin", "tokyonight", "habamax" },
+    colorscheme = { "everforest", "tokyonight", "habamax" },
   },
   rocks = {
     enabled = false,
