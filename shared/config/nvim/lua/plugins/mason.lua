@@ -22,6 +22,8 @@ return {
         -- "rust-analyzer",        -- use rustup version
         -- "gopls",                -- requires go
         "marksman",
+        "clangd",
+        "json-lsp",
         -- Formatters
         "stylua",
         "shfmt",

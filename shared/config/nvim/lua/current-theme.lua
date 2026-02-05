@@ -1,4 +1,4 @@
--- Theme is loaded via lua/plugins/catppuccin.lua
+-- Theme is loaded via lua/plugins/everforest.lua
 -- This file only contains additional transparency overrides
 
 vim.api.nvim_create_autocmd("ColorScheme", {
