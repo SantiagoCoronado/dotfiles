@@ -17,19 +17,19 @@ return {
       ensure_installed = {
         -- LSP servers
         "lua-language-server",
-        "pyright",
-        "typescript-language-server",
-        "rust-analyzer",
-        "gopls",
+        -- "pyright",              -- requires npm
+        -- "typescript-language-server", -- requires npm
+        -- "rust-analyzer",        -- use rustup version
+        -- "gopls",                -- requires go
         "marksman",
         -- Formatters
         "stylua",
         "shfmt",
         "ruff",
-        "biome",
+        -- "biome",                -- requires npm
         "prettier",
-        "rustfmt",
-        "goimports",
+        -- "rustfmt",              -- use rustup version
+        -- "goimports",            -- requires go
         "clang-format",
         "markdownlint-cli2",
       },

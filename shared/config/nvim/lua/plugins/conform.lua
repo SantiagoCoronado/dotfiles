@@ -48,6 +48,12 @@ return {
         command = "c_formatter_42",
         stdin = true,
       },
+      biome = {
+        prepend_args = { "--no-ignore" },
+      },
+      prettier = {
+        prepend_args = { "--ignore-path", "/dev/null" },
+      },
     },
   },
 }

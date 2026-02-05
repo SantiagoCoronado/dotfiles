@@ -9,6 +9,9 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 # Path to Oh My Zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
+# Claude temp
+export CLAUDE_CODE_TMPDIR="$HOME/.claude/tmp"
+
 # Default editor
 export VISUAL="nvim"
 export EDITOR="nvim"
@@ -135,7 +138,7 @@ alias lta="eza --tree --level=2 --icons -a"
 # bat (better cat)
 alias cat="bat --paging=never"
 alias catp="bat --plain"
-export BAT_THEME="Cattppucin"
+export BAT_THEME="Catppuccin Mocha"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # Git aliases (additional to oh-my-zsh git plugin)
@@ -150,6 +153,7 @@ alias lg="lazygit"
 # Local bin and eza
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/eza:$PATH"
+export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
 # fzf (installed from git)
 export PATH="$HOME/.fzf/bin:$PATH"
@@ -205,3 +209,7 @@ autoload -Uz compinit
 compinit
 
 . "$HOME/.atuin/bin/env"
+
+alias francinette=/home/rmourey-/francinette/tester.sh
+
+alias paco=/home/rmourey-/francinette/tester.sh

@@ -9,7 +9,15 @@ return {
     explorer = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = {
+          hidden = true,
+          ignored = true,
+        },
+      },
+    },
     notifier = { enabled = false }, -- using noice.nvim instead
     quickfile = { enabled = true },
     scope = { enabled = true },
