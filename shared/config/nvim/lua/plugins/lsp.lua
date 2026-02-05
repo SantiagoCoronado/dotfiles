@@ -57,6 +57,9 @@ return {
 
     -- Server configurations using native vim.lsp.config()
     vim.lsp.config("lua_ls", {
+      cmd = { "lua-language-server" },
+      filetypes = { "lua" },
+      root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
@@ -70,6 +73,9 @@ return {
     })
 
     vim.lsp.config("pyright", {
+      cmd = { "pyright-langserver", "--stdio" },
+      filetypes = { "python" },
+      root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
@@ -84,6 +90,9 @@ return {
     })
 
     vim.lsp.config("ts_ls", {
+      cmd = { "typescript-language-server", "--stdio" },
+      filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+      root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
@@ -115,17 +124,23 @@ return {
     })
 
     vim.lsp.config("rust_analyzer", {
+      cmd = { "rust-analyzer" },
+      filetypes = { "rust" },
+      root_markers = { "Cargo.toml", "rust-project.json", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
         ["rust-analyzer"] = {
-          checkOnSave = { command = "clippy" },
+          check = { command = "clippy" },
           cargo = { allFeatures = true },
         },
       },
     })
 
     vim.lsp.config("gopls", {
+      cmd = { "gopls" },
+      filetypes = { "go", "gomod", "gowork", "gotmpl" },
+      root_markers = { "go.work", "go.mod", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
@@ -138,11 +153,42 @@ return {
     })
 
     vim.lsp.config("marksman", {
+      cmd = { "marksman", "server" },
+      filetypes = { "markdown", "markdown.mdx" },
+      root_markers = { ".marksman.toml", ".git" },
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
+    vim.lsp.config("jsonls", {
+      cmd = { "vscode-json-language-server", "--stdio" },
+      filetypes = { "json", "jsonc" },
+      root_markers = { ".git" },
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        json = {
+          validate = { enable = true },
+        },
+      },
+    })
+
+    vim.lsp.config("clangd", {
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders=true",
+      },
+      filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+      root_markers = { ".clangd", ".clang-tidy", ".clang-format", "compile_commands.json", "compile_flags.txt", "configure.ac", ".git" },
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
     -- Enable all configured servers
-    vim.lsp.enable({ "lua_ls", "pyright", "ts_ls", "rust_analyzer", "gopls", "marksman" })
+    vim.lsp.enable({ "lua_ls", "pyright", "ts_ls", "rust_analyzer", "gopls", "marksman", "jsonls", "clangd" })
   end,
 }

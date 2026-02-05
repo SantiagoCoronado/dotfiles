@@ -22,6 +22,8 @@ return {
         "rust-analyzer",
         "gopls",
         "marksman",
+        "clangd",
+        "json-lsp",
         -- Formatters
         "stylua",
         "shfmt",
