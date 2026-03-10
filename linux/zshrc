@@ -122,6 +122,8 @@ alias h="history"
 alias reload="source ~/.zshrc"
 
 # Disk usage tools
+# me/rmourey-/projects/pushswap
+# 
 alias ncdu="ncdu --color dark"
 alias disk="ncdu"
 
@@ -147,6 +149,8 @@ alias gd="git diff"
 alias gco="git checkout"
 alias gcm="git commit -m"
 alias gp="git push"
+me/rmourey-/projects/pushswap
+
 alias gl="git pull"
 alias lg="lazygit"
 

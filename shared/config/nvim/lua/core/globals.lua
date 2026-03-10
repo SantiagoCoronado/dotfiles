@@ -27,7 +27,7 @@ g.user42 = "rmourey-"
 g.mail42 = "rmourey-@student.42madrid.com"
 
 -- Custom globals for feature toggles
-g.autoformat_enabled = true
+-- g.autoformat_enabled = true
 g.diagnostics_enabled = true
 g.inlay_hints_enabled = false
 g.codelens_enabled = true
@@ -82,4 +82,3 @@ g.icons = {
     Variable = " ",
   },
 }
-
