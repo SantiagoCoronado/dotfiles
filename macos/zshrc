@@ -203,3 +203,9 @@ export PATH="/usr/local/monero:$PATH"
 alias francinette=/Users/mou/projects/francinette/tester.sh
 
 alias paco=/Users/mou/projects/francinette/tester.sh
+
+# opencode
+export PATH=/Users/mou/.opencode/bin:$PATH
+
+# VPS quick connect with tmux
+alias vps='ssh moujo -t "tmux new-session -A -s main"'
