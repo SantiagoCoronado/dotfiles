@@ -19,7 +19,8 @@ SHARED_DIR="$DOTFILES_DIR/shared"
 
 echo "Installing dotfiles for $PLATFORM from $DOTFILES_DIR"
 
-mkdir -p "$CONFIG_DIR"/git "$CONFIG_DIR"/npm
+mkdir -p "$CONFIG_DIR"/{git,npm,gh,btop,lazygit,thefuck}
+mkdir -p "$HOME/.claude"
 
 # Shell files (platform-specific + shared)
 ln -sf "$PLATFORM_DIR/zshrc" "$HOME/.zshrc"
@@ -36,12 +37,39 @@ for dir in tmux ghostty; do
     ln -sf "$PLATFORM_DIR/config/$dir" "$CONFIG_DIR/$dir"
 done
 
+# macOS-only directories
+if [[ "$PLATFORM" == "macos" ]]; then
+    for dir in sketchybar karabiner; do
+        rm -rf "$CONFIG_DIR/$dir"
+        ln -sf "$PLATFORM_DIR/config/$dir" "$CONFIG_DIR/$dir"
+    done
+fi
+
 # Shared configs
 ln -sf "$SHARED_DIR/config/starship.toml" "$CONFIG_DIR/starship.toml"
 rm -rf "$CONFIG_DIR/nvim"
 ln -sf "$SHARED_DIR/config/nvim" "$CONFIG_DIR/nvim"
 rm -rf "$CONFIG_DIR/atuin"
 ln -sf "$SHARED_DIR/config/atuin" "$CONFIG_DIR/atuin"
+
+# Shared single-file configs
+ln -sf "$SHARED_DIR/config/btop/btop.conf" "$CONFIG_DIR/btop/btop.conf"
+ln -sf "$SHARED_DIR/config/gh/config.yml" "$CONFIG_DIR/gh/config.yml"
+ln -sf "$SHARED_DIR/config/lazygit/config.yml" "$CONFIG_DIR/lazygit/config.yml"
+ln -sf "$SHARED_DIR/config/thefuck/settings.py" "$CONFIG_DIR/thefuck/settings.py"
+
+# Shared directory configs
+rm -rf "$CONFIG_DIR/wezterm"
+ln -sf "$SHARED_DIR/config/wezterm" "$CONFIG_DIR/wezterm"
+
+# Claude Code configuration
+ln -sf "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+rm -rf "$HOME/.claude/agents"
+ln -sf "$DOTFILES_DIR/claude/agents" "$HOME/.claude/agents"
+rm -rf "$HOME/.claude/skills"
+ln -sf "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
+rm -rf "$HOME/.claude/docs"
+ln -sf "$DOTFILES_DIR/claude/docs" "$HOME/.claude/docs"
 
 echo "Dotfiles installed successfully for $PLATFORM!"
 echo "Run: source ~/.zshrc"

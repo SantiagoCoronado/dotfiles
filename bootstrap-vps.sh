@@ -21,6 +21,7 @@ echo ">>> Installing system packages via pacman..."
 sudo pacman -Syu --noconfirm
 sudo pacman -S --noconfirm --needed \
     neovim tmux fzf zoxide bat eza glow ncdu lazygit ripgrep fd git-delta xclip direnv thefuck \
+    btop github-cli \
     base-devel npm unzip wget curl
 
 echo ">>> Installing Oh My Zsh..."
