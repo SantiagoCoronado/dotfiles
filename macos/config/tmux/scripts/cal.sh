@@ -124,7 +124,7 @@ calculate_times() {
 
 display_popup() {
 	tmux display-popup \
-		-S "fg=#eba0ac" \
+		-S "fg=white" \
 		-w50% \
 		-h50% \
 		-d '#{pane_current_path}' \

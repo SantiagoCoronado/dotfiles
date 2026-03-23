@@ -174,10 +174,6 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"
 # fzf key bindings and completion
 source <(fzf --zsh)
 
-# zoxide (smarter cd)
-eval "$(zoxide init zsh)"
-alias cd="z"
-
 # thefuck (auto-correct commands)
 eval $(thefuck --alias)
 alias f="fuck"
@@ -209,3 +205,7 @@ export PATH=/Users/mou/.opencode/bin:$PATH
 
 # VPS quick connect with tmux
 alias vps='ssh moujo -t "tmux new-session -A -s main"'
+
+# zoxide (smarter cd) - must be at the end of .zshrc
+eval "$(zoxide init zsh)"
+alias cd="z"

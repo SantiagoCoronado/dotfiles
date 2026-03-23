@@ -185,10 +185,6 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"
 # fzf key bindings and completion
 source <(fzf --zsh)
 
-# zoxide (smarter cd)
-eval "$(zoxide init zsh)"
-alias cd="z"
-
 # thefuck (auto-correct commands)
 eval $(thefuck --alias)
 alias f="fuck"
@@ -217,6 +213,10 @@ compinit
 alias francinette=/home/rmourey-/francinette/tester.sh
 
 alias paco=/home/rmourey-/francinette/tester.sh
+
+# zoxide (smarter cd) - must be at the end of .zshrc
+eval "$(zoxide init zsh)"
+alias cd="z"
 
 # Source local overrides (machine-specific aliases, etc.)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
