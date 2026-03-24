@@ -40,11 +40,11 @@
         ]
       },
       {
-        "matcher": "Bash",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'input=$(cat); cmd=$(echo \"$input\" | jq -r \".tool_input.command // empty\"); if echo \"$cmd\" | grep -qE \"rm\\s+(-[a-zA-Z]*f|-[a-zA-Z]*r|--force|--recursive).*(/|\\*|~)|git\\s+push\\s+(-f|--force)|git\\s+reset\\s+--hard|git\\s+clean\\s+-f\"; then echo \"BLOCK: Destructive command detected: $cmd\" >&2; exit 2; fi'"
+            "command": "uv run ~/.claude/hooks/pre_tool_use.py"
           }
         ]
       }
@@ -60,15 +60,11 @@
         ]
       },
       {
-        "matcher": "Edit|MultiEdit|Write",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "black . --quiet 2>/dev/null || true"
-          },
-          {
-            "type": "command",
-            "command": "npx prettier --write \"**/*.{ts,tsx,js,jsx}\" --log-level silent 2>/dev/null || true"
+            "command": "uv run ~/.claude/hooks/post_tool_use.py"
           }
         ]
       },
@@ -77,7 +73,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || osascript -e 'beep' 2>/dev/null || echo -e '\\a' || true"
+            "command": "afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || true"
           }
         ]
       }
@@ -92,11 +88,74 @@
           },
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Purr.aiff 2>/dev/null || true"
+            "command": "uv run ~/.claude/hooks/stop.py --chat"
           },
           {
             "type": "command",
-            "command": "bash -c 'if git diff --quiet HEAD 2>/dev/null && git diff --cached --quiet 2>/dev/null && [ -z \"$(git ls-files --others --exclude-standard 2>/dev/null)\" ]; then exit 0; fi; claude -p \"Run git status and git diff. If there are meaningful code changes worth committing (not just whitespace, formatting, or incomplete work), stage the relevant files and create a single commit with a concise message. Never stage .env files or secrets. If changes look incomplete or trivial, do nothing and explain why you skipped.\" --dangerously-skip-permissions 2>/dev/null || true'"
+            "command": "afplay /System/Library/Sounds/Purr.aiff 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/session_start.py --load-context"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/pre_compact.py --backup"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/subagent_stop.py --chat"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/agent_task_complete.py --log"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/notification.py --notify"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/waiting_for_input.py --enable"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/user_prompt_submit.py"
           }
         ]
       }
