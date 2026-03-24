@@ -50,15 +50,27 @@ nvim --headless "+Lazy! sync" +qa
 ~/.tmux/plugins/tpm/bin/install_plugins
 ```
 
+### WSL2 (Ubuntu/Debian)
+
+Run inside your WSL2 instance — installs everything from scratch:
+
+```bash
+git clone git@github.com:Mourey/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./bootstrap-wsl.sh
+```
+
+Handles apt packages, tools not in apt (neovim, lazygit, eza, delta), WSL2 clipboard via `win32yank`, zsh setup, and all configs. Sets up `pbcopy`/`pbpaste` aliases that bridge to the Windows clipboard.
+
 ### Arch Linux VPS (from scratch)
 
-One command bootstraps everything — packages, shell, plugins, configs:
+Run from your local machine — SSHs in and sets up everything:
 
 ```bash
 ./bootstrap-vps.sh <ssh-host>
 ```
 
-This SSHs into the host, installs all packages via pacman, sets up oh-my-zsh/starship/atuin/mise/tpm, clones this repo, runs `install.sh --linux`, and installs neovim + tmux plugins.
+Installs all packages via pacman, sets up oh-my-zsh/starship/atuin/mise/tpm, clones this repo, runs `install.sh --linux`, and installs neovim + tmux plugins.
 
 ## What `install.sh` does
 
@@ -91,7 +103,8 @@ Run `install.sh` again after pulling updates. It's idempotent.
 ```
 dotfiles/
 ├── install.sh              # Symlink installer (--macos or --linux)
-├── bootstrap-vps.sh        # Full Arch Linux VPS setup
+├── bootstrap-vps.sh        # Full Arch Linux VPS setup (remote via SSH)
+├── bootstrap-wsl.sh        # Full WSL2 Ubuntu/Debian setup (run locally)
 ├── CLAUDE.md               # Claude Code project instructions
 │
 ├── macos/                  # macOS-specific
