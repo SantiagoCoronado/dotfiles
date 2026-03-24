@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Claude Code hook logger. Reads hook JSON from stdin and appends a structured log line.
+"""Claude Code hook logger. Reads hook JSON from stdin and appends structured log lines.
+
+Logs are written per-session: ~/.claude/logs/<date>_<session-id>.log
+A latest.log symlink always points to the current session's log.
 
 Usage in settings.json hooks:
-  PreToolUse:  "command": "uv run claude/scripts/log-hook.py pre"
-  PostToolUse: "command": "uv run claude/scripts/log-hook.py post"
-  Stop:        "command": "uv run claude/scripts/log-hook.py stop"
+  PreToolUse:  "command": "uv run ~/.claude/scripts/log-hook.py pre"
+  PostToolUse: "command": "uv run ~/.claude/scripts/log-hook.py post"
+  Stop:        "command": "uv run ~/.claude/scripts/log-hook.py stop"
 """
 
 import json
@@ -16,7 +19,6 @@ from pathlib import Path
 LOG_DIR = Path.home() / ".claude" / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-log_file = LOG_DIR / f"{datetime.now():%Y-%m-%d}.log"
 
 def get_input():
     try:
@@ -24,14 +26,36 @@ def get_input():
     except (json.JSONDecodeError, EOFError):
         return {}
 
+
+def get_log_file(data):
+    session_id = data.get("session_id", os.environ.get("CLAUDE_SESSION_ID", "unknown"))
+    short_id = session_id[:8] if session_id != "unknown" else "unknown"
+    date = datetime.now().strftime("%Y-%m-%d")
+    log_file = LOG_DIR / f"{date}_{short_id}.log"
+
+    # Update latest.log symlink
+    latest = LOG_DIR / "latest.log"
+    try:
+        latest.unlink(missing_ok=True)
+        latest.symlink_to(log_file.name)
+    except OSError:
+        pass
+
+    return log_file
+
+
 def extract_summary(event, data):
     tool = data.get("tool_name", "---")
 
     if event == "stop":
-        session_id = data.get("session_id", "unknown")
-        return "stop", "---", f"session ended (id: {session_id[:8]})" if session_id != "unknown" else "session ended"
+        return "STOP", "---", "session ended"
 
     tool_input = data.get("tool_input", {})
+    if isinstance(tool_input, str):
+        try:
+            tool_input = json.loads(tool_input)
+        except (json.JSONDecodeError, TypeError):
+            tool_input = {}
 
     if event == "pre":
         if tool == "Bash":
@@ -51,21 +75,35 @@ def extract_summary(event, data):
         return "PRE ", tool, detail
 
     if event == "post":
-        tool_output = data.get("tool_output", "")
+        # Try multiple paths for exit code
+        tool_output = data.get("tool_output", {})
+        if isinstance(tool_output, str):
+            try:
+                tool_output = json.loads(tool_output)
+            except (json.JSONDecodeError, TypeError):
+                tool_output = {}
+
         if tool == "Bash":
-            exit_code = data.get("exit_code", "?")
-            detail = f"exit:{exit_code}"
+            exit_code = (
+                data.get("exit_code")
+                or (tool_output.get("exit_code") if isinstance(tool_output, dict) else None)
+                or data.get("tool_result", {}).get("exit_code") if isinstance(data.get("tool_result"), dict) else None
+            )
+            detail = f"exit:{exit_code}" if exit_code is not None else "ok"
         elif tool in ("Edit", "MultiEdit", "Write"):
-            detail = "ok" if "success" in str(tool_output).lower() else "done"
+            output_str = str(data.get("tool_output", "")).lower()
+            detail = "ok" if "success" in output_str else "done"
         else:
             detail = "ok"
         return "POST", tool, detail
 
     return event.upper(), tool, ""
 
+
 def main():
     event = sys.argv[1] if len(sys.argv) > 1 else "unknown"
     data = get_input()
+    log_file = get_log_file(data)
     tag, tool, detail = extract_summary(event, data)
     timestamp = datetime.now().strftime("%H:%M:%S")
 
@@ -73,6 +111,7 @@ def main():
 
     with open(log_file, "a") as f:
         f.write(line)
+
 
 if __name__ == "__main__":
     main()
