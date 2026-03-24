@@ -210,9 +210,9 @@ compinit
 
 . "$HOME/.atuin/bin/env"
 
-alias francinette=/home/rmourey-/francinette/tester.sh
-
-alias paco=/home/rmourey-/francinette/tester.sh
+# 42 school testers (if installed)
+[ -f "$HOME/francinette/tester.sh" ] && alias francinette="$HOME/francinette/tester.sh"
+[ -f "$HOME/francinette/tester.sh" ] && alias paco="$HOME/francinette/tester.sh"
 
 # zoxide (smarter cd) - must be at the end of .zshrc
 eval "$(zoxide init zsh)"

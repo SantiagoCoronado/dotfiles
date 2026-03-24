@@ -152,7 +152,8 @@ alias lg="lazygit"
 
 # Homebrew path (Apple Silicon)
 export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/home/rmourey-/eza:$PATH"
+# eza (if installed locally)
+[ -d "$HOME/eza" ] && export PATH="$HOME/eza:$PATH"
 
 # PostgreSQL 17
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
@@ -190,18 +191,18 @@ eval "$(atuin init zsh)"
 # Initialize Starship prompt
 eval "$(starship init zsh)"
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/mou/.docker/completions $fpath)
+[ -d "$HOME/.docker/completions" ] && fpath=($HOME/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
 export PATH="/usr/local/monero:$PATH"
 
-alias francinette=/Users/mou/projects/francinette/tester.sh
+# 42 school testers (if installed)
+[ -f "$HOME/projects/francinette/tester.sh" ] && alias francinette="$HOME/projects/francinette/tester.sh"
+[ -f "$HOME/projects/francinette/tester.sh" ] && alias paco="$HOME/projects/francinette/tester.sh"
 
-alias paco=/Users/mou/projects/francinette/tester.sh
-
-# opencode
-export PATH=/Users/mou/.opencode/bin:$PATH
+# opencode (if installed)
+[ -d "$HOME/.opencode/bin" ] && export PATH="$HOME/.opencode/bin:$PATH"
 
 # VPS quick connect with tmux
 alias vps='ssh moujo -t "tmux new-session -A -s main"'
@@ -209,3 +210,6 @@ alias vps='ssh moujo -t "tmux new-session -A -s main"'
 # zoxide (smarter cd) - must be at the end of .zshrc
 eval "$(zoxide init zsh)"
 alias cd="z"
+
+# Source local overrides (machine-specific aliases, etc.)
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
