@@ -70,6 +70,8 @@ rm -rf "$HOME/.claude/skills"
 ln -sf "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
 rm -rf "$HOME/.claude/docs"
 ln -sf "$DOTFILES_DIR/claude/docs" "$HOME/.claude/docs"
+rm -rf "$HOME/.claude/scripts"
+ln -sf "$DOTFILES_DIR/claude/scripts" "$HOME/.claude/scripts"
 
 echo "Dotfiles installed successfully for $PLATFORM!"
 echo "Run: source ~/.zshrc"

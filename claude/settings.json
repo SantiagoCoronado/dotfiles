@@ -31,6 +31,15 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/scripts/log-hook.py pre"
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
@@ -41,6 +50,15 @@
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/scripts/log-hook.py post"
+          }
+        ]
+      },
       {
         "matcher": "Edit|MultiEdit|Write",
         "hooks": [
@@ -68,6 +86,10 @@
       {
         "matcher": "",
         "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/scripts/log-hook.py stop"
+          },
           {
             "type": "command",
             "command": "afplay /System/Library/Sounds/Purr.aiff 2>/dev/null || true"

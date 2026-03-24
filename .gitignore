@@ -61,6 +61,7 @@ claude/chrome/
 claude/ide/
 claude/downloads/
 claude/session-env/
+claude/logs/
 
 # Python
 __pycache__/
