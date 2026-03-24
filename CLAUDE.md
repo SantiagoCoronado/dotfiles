@@ -23,6 +23,18 @@ Multi-platform dotfiles repo (macOS + Arch Linux) using symlink-based installati
 - **File symlinks** (ln -sf into existing dir): git/config, npm/npmrc, btop/btop.conf, gh/config.yml, lazygit/config.yml, thefuck/settings.py
 - File-level symlinks are used when the target dir has generated content we don't want to track
 
+## Code intelligence
+
+Prefer LSP over Grep/Glob/Read for code navigation:
+- Use `goToDefinition` / `goToImplementation` to jump to source
+- Use `findReferences` to see all usages before renaming or changing signatures
+- Use `workspaceSymbol` to find definitions across the project
+- Use `documentSymbol` to list functions in a file
+- Use `hover` for type information
+- Use `incomingCalls` / `outgoingCalls` for call hierarchies
+- Fall back to Grep/Glob only for text searches (comments, strings, config values)
+- Check LSP diagnostics after editing to fix type errors and missing imports immediately
+
 ## Rules
 
 - NEVER commit .env files, API tokens, secrets, or credentials
